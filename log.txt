@@ -1,0 +1,7 @@
+Start: Thu, 12 Feb 2015 12:33:03 -0800
+End: Thu, 12 Feb 2015 13:14:23 -0800
+Tasks: I cloned the assignment repository, created my own repository, added the instructors, and set up the database
+
+Start: Mon, 16 Feb 2015 00:00:18 -0800
+End: Mon, 16 Feb 2015 2015 01:51:58 -0800
+Tasks: made my initial commit, copied my work from last term's similar project for reference, and altered each file for propriety with this assignment

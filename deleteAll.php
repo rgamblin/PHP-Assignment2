@@ -7,6 +7,6 @@
   $dbpass = 'A2q1yggF4h459bU9';
   $mysqli = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
   
-  $mysqli->query("DELETE FROM Inventory");
+  $mysqli->query("DELETE FROM VideoTable");
   $mysqli->close();
   header("Location:interface.php");

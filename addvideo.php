@@ -7,6 +7,8 @@
   
   if ($_POST["name"] == '')
     header("Location:interface.php?error=noName");
+  else if ($_POST["length"] < 1)
+    header("Location:interface.php?error=lengthLow");
   else
   {  
     //the following four variable declarations were copied directly from my ONID database page for convenience.

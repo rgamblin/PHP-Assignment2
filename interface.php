@@ -15,7 +15,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Assignment 6 RLG</title>
+    <title>PHP Assignment 2 RLG</title>
   </head>
 
   <body>
@@ -24,6 +24,8 @@
     {
       if($_GET["error"] == "noName")
         echo "Name is a required field";
+      else if($_GET["error"] == "lengthLow")
+        echo "Length must be greater than zero";
     }
   ?>
     <section>
@@ -32,17 +34,43 @@
           <tr> <th> name <th> category <th> length <th> rented
         <tbody>
       <?php
-        $results = $mysqli->query("SELECT id, name, category, length, rented FROM VideoTable ORDER BY id");
+        if(!isset($_POST["filtered"]) || ($_POST["filtered"] == "All Videos"))
+          $results = $mysqli->query("SELECT id, name, category, length, rented FROM VideoTable ORDER BY id");
+        else
+        {
+          $filterCategory = $_POST["filtered"];
+          $results = $mysqli->query("SELECT id, name, category, length, rented FROM VideoTable WHERE category = \"$filterCategory\" ORDER BY id");
+        }
         for ($i = 0; $i < $results->num_rows; $i++)
         {
           echo "<tr> ";
           $current_results = $results->fetch_row();
+          $currentID = $current_results[0];
+          
+        
           for ($j = 1; $j < 4; $j++)
           {
             $current_box = $current_results[$j];
             echo "<td> $current_box";
           }
-          $currentID = $current_results[0];
+          
+          echo "<td> ";
+          
+          if($current_results[4] == 1)
+          {
+            echo "checked out";
+            $buttonMessage = "Check In";
+          }
+          else
+          {
+            echo "available";
+            $buttonMessage = "Check Out";
+          }
+          
+          echo "<form method = \"post\" action = \"checkout.php\"><td> <button type = \"submit\" name = \"checkout\" value = $currentID>$buttonMessage</button></form>";
+          
+          
+          
           echo "<form method = \"post\" action = \"delete.php\"><td> <button type = \"submit\" name = \"deleted\" value = $currentID>Delete</button></form>";
         }
       ?>
@@ -61,8 +89,8 @@
     </section>
     
     <section>
-      <form action="alterPrice.php" method="post">
-        <label>Category <select name="updated">
+      <form action="interface.php" method="post">
+        <label>Category <select name="filtered">
         <?php
           $results = $mysqli->query("SELECT DISTINCT category FROM VideoTable ORDER BY id");
           
@@ -71,14 +99,14 @@
             $current_option = $results->fetch_row()[0];
             echo "<option>$current_option</option>";
           }
+            echo "<option>All Videos</option>";
           $mysqli->close();
         ?>
         </select></label>
-        <label>Percentage <input type="number" name="price"></label>
-        <button type="submit">Alter Prices</button>
+        <button type="submit">Filter by Category</button>
       </form>
     </section>
-    <section><form action="deleteAll.php"><button type="submit">Delete All Products</button></form></section>
+    <section><form action="deleteAll.php"><button type="submit">Delete All Videos</button></form></section>
   
   </body>
   
